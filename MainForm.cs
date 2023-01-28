@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.IO;
-using System.Security.Cryptography;
 using System.Windows.Forms;
-using ACFAParamEditor.Properties;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using SoulsFormats;
 
@@ -13,11 +10,13 @@ namespace ACFAParamEditor
 {
     public partial class MainForm : Form
     {
+        private List<ParamWrapper> paramList = new List<ParamWrapper>();
+        private List<PARAMDEF> defList = new List<PARAMDEF>();
+        internal GetParamData getParamData { get; private set; } = new GetParamData();
         public MainForm()
         {
             InitializeComponent();
         }
-
 
         // On Form Load
         private void MainForm_Load(object sender, EventArgs e)
@@ -41,21 +40,18 @@ namespace ACFAParamEditor
                 return;
             }
 
-
-            var defResFolderPath = $"{Environment.CurrentDirectory}/res/def/";
-            //var xmlResFolderPath = $"{Environment.CurrentDirectory}/res/xml/";
+            //var xmlResFolderPath = $"{Environment.CurrentDirectory}/res/xml/";    // Comment/Uncomment this line to test xml
+            var defResFolderPath = $"{Environment.CurrentDirectory}/res/def/";      // Comment/Uncomment this line to test Def
             var binFolderPath = binFolderPathDialog.FileName;
 
-            // Create lists and add data to lists
-            List<PARAMDEF> defList = new List<PARAMDEF>();
-
-            string[] defFiles = Directory.GetFiles(defResFolderPath, "*.def");
+            // Add data to lists
+            string[] defFiles = Directory.GetFiles(defResFolderPath, "*.def");      // Switch to *.xml to test xml, *.def to test def
             foreach (string defPath in defFiles)
             {
                 try
                 {
-                    defList.Add(PARAMDEF.Read(defPath));
-                    //defList.Add(PARAMDEF.XmlDeserialize(defPath));
+                    defList.Add(PARAMDEF.Read(defPath));                            // Comment/Uncomment this line to test Def
+                    //defList.Add(PARAMDEF.XmlDeserialize(defPath));                // Comment/Uncomment this line to test xml
                 }
                 catch
                 {
@@ -64,19 +60,17 @@ namespace ACFAParamEditor
                 }
             }
 
-            List<PARAM> paramList = new List<PARAM>();
-            List<string> paramNameList = new List<string>();
-
             string[] binFiles = Directory.GetFiles(binFolderPath, "*.*");
             foreach (string binPath in binFiles)
             {
                 try
                 {
-                    var paramName = Path.GetFileNameWithoutExtension(binPath);
-                    paramNameList.Add(paramName);
+                    var param = new ParamWrapper() {
+                        ParamName = Path.GetFileNameWithoutExtension(binPath), 
+                        Param = PARAM.Read(binPath) 
+                    };
 
-                    var param = PARAM.Read(binPath);
-                    param.ApplyParamdefCarefully(defList);
+                    param.Param.ApplyParamdefCarefully(defList);
                     paramList.Add(param);
                 }
                 catch 
@@ -95,32 +89,25 @@ namespace ACFAParamEditor
             CellDGV.Columns.Add("value", "Value");
 
             var paramNameCounter = 0;
-            foreach (PARAM param in paramList) 
+            foreach (ParamWrapper param in paramList) 
             {
-                string[] newParamRow = { $"{paramNameList[paramNameCounter]}", $"{param.ParamType}"};
-                paramNameCounter++;
+                string[] newParamRow = { $"{param.ParamName}", $"{param.Param.ParamType}" };
                 ParamDGV.Rows.Add(newParamRow);
-                foreach (var row in param.Rows)
+
+                paramNameCounter++;
+                foreach (var row in param.Param.Rows)
                 {
                     string[] newRowRow = { $"{row.ID}", $"{row.Name}" };
                     RowDGV.Rows.Add(newRowRow);
                     try
                     {
                         if (row.Cells == null)
-                            Debug.WriteLine($"Cell at {row} is null in {param.ParamType}");
+                            Debug.WriteLine($"Cell at {row} is null in {param.Param.ParamType}");
                         if (row.Cells != null)
-                            try
+                            foreach (var cell in row.Cells)
                             {
-                                foreach (var cell in row.Cells)
-                                {
-                                    string[] newCellRow = { $"{cell.Def.DisplayName}", $"{cell.Value}" };
-                                    CellDGV.Rows.Add(newCellRow);
-                                }
-                            }
-                            catch
-                            {
-                                Debug.WriteLine($"DataGridView adding failed");
-                                throw;
+                                string[] newCellRow = { $"{cell.Def.DisplayName}", $"{cell.Value}" };
+                                CellDGV.Rows.Add(newCellRow);
                             }
                     }
                     catch
