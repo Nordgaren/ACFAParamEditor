@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -40,6 +41,9 @@
             this.RowDGV = new System.Windows.Forms.DataGridView();
             this.rowid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rowname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RowDGVContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.CopyRowRowConMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.PasteRowRowConMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ParamDGV = new System.Windows.Forms.DataGridView();
             this.paramname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.paramtype = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -57,7 +61,9 @@
             this.MainFormMenuStrip = new System.Windows.Forms.MenuStrip();
             this.FileMS = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenParamsFMS = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddParamFMS = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveFMS = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveAllFMS = new System.Windows.Forms.ToolStripMenuItem();
             this.FileSaveSeparatorMS = new System.Windows.Forms.ToolStripSeparator();
             this.ExportFMS = new System.Windows.Forms.ToolStripMenuItem();
             this.ConvertDefXmlEFMS = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,11 +72,14 @@
             this.ConvertParamTsvEFMS = new System.Windows.Forms.ToolStripMenuItem();
             this.ConvertTsvParamEFMS = new System.Windows.Forms.ToolStripMenuItem();
             this.RowMS = new System.Windows.Forms.ToolStripMenuItem();
+            this.DuplicateRowRMS = new System.Windows.Forms.ToolStripMenuItem();
             this.CopyRowRMS = new System.Windows.Forms.ToolStripMenuItem();
+            this.PasteRowRMS = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteRowRMS = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMS = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutHMS = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.RowDGV)).BeginInit();
+            this.RowDGVContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ParamDGV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CellDGV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainerA)).BeginInit();
@@ -107,6 +116,7 @@
             this.RowDGV.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.rowid,
             this.rowname});
+            this.RowDGV.ContextMenuStrip = this.RowDGVContextMenu;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -132,7 +142,6 @@
             this.RowDGV.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.RowDGV.Size = new System.Drawing.Size(370, 605);
             this.RowDGV.TabIndex = 1;
-            this.RowDGV.CellContextMenuStripChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.CellDGV_CellValueChanged);
             this.RowDGV.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.RowDGV_CellValueChanged);
             this.RowDGV.SelectionChanged += new System.EventHandler(this.RowDGV_SelectionChanged);
             // 
@@ -147,6 +156,33 @@
             this.rowname.FillWeight = 151.3678F;
             this.rowname.HeaderText = "Row Name";
             this.rowname.Name = "rowname";
+            // 
+            // RowDGVContextMenu
+            // 
+            this.RowDGVContextMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.RowDGVContextMenu.DropShadowEnabled = false;
+            this.RowDGVContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CopyRowRowConMenu,
+            this.PasteRowRowConMenu});
+            this.RowDGVContextMenu.Name = "RowDGVContextMenu";
+            this.RowDGVContextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.RowDGVContextMenu.Size = new System.Drawing.Size(129, 48);
+            // 
+            // CopyRowRowConMenu
+            // 
+            this.CopyRowRowConMenu.ForeColor = System.Drawing.SystemColors.Control;
+            this.CopyRowRowConMenu.Name = "CopyRowRowConMenu";
+            this.CopyRowRowConMenu.Size = new System.Drawing.Size(128, 22);
+            this.CopyRowRowConMenu.Text = "Copy Row";
+            this.CopyRowRowConMenu.Click += new System.EventHandler(this.CopyRowRMS_Click);
+            // 
+            // PasteRowRowConMenu
+            // 
+            this.PasteRowRowConMenu.ForeColor = System.Drawing.SystemColors.Control;
+            this.PasteRowRowConMenu.Name = "PasteRowRowConMenu";
+            this.PasteRowRowConMenu.Size = new System.Drawing.Size(128, 22);
+            this.PasteRowRowConMenu.Text = "Paste Row";
+            this.PasteRowRowConMenu.Click += new System.EventHandler(this.PasteRowRMS_Click);
             // 
             // ParamDGV
             // 
@@ -195,7 +231,6 @@
             this.ParamDGV.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.ParamDGV.Size = new System.Drawing.Size(370, 605);
             this.ParamDGV.TabIndex = 0;
-            this.ParamDGV.CellContextMenuStripChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.CellDGV_CellValueChanged);
             this.ParamDGV.SelectionChanged += new System.EventHandler(this.ParamDGV_SelectionChanged);
             // 
             // paramname
@@ -258,7 +293,6 @@
             this.CellDGV.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.CellDGV.Size = new System.Drawing.Size(370, 605);
             this.CellDGV.TabIndex = 2;
-            this.CellDGV.CellContextMenuStripChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.CellDGV_CellValueChanged);
             this.CellDGV.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.CellDGV_CellValueChanged);
             // 
             // celltype
@@ -374,7 +408,9 @@
             this.FileMS.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.FileMS.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.OpenParamsFMS,
+            this.AddParamFMS,
             this.SaveFMS,
+            this.SaveAllFMS,
             this.FileSaveSeparatorMS,
             this.ExportFMS});
             this.FileMS.ForeColor = System.Drawing.SystemColors.Control;
@@ -389,9 +425,20 @@
             this.OpenParamsFMS.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.OpenParamsFMS.ForeColor = System.Drawing.SystemColors.Control;
             this.OpenParamsFMS.Name = "OpenParamsFMS";
-            this.OpenParamsFMS.Size = new System.Drawing.Size(180, 22);
+            this.OpenParamsFMS.Size = new System.Drawing.Size(145, 22);
             this.OpenParamsFMS.Text = "Open Params";
             this.OpenParamsFMS.Click += new System.EventHandler(this.OpenParamsFMS_click);
+            // 
+            // AddParamFMS
+            // 
+            this.AddParamFMS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
+            this.AddParamFMS.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.AddParamFMS.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.AddParamFMS.ForeColor = System.Drawing.SystemColors.Control;
+            this.AddParamFMS.Name = "AddParamFMS";
+            this.AddParamFMS.Size = new System.Drawing.Size(145, 22);
+            this.AddParamFMS.Text = "Add Param";
+            this.AddParamFMS.Click += new System.EventHandler(this.AddParamFMS_Click);
             // 
             // SaveFMS
             // 
@@ -400,16 +447,27 @@
             this.SaveFMS.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.SaveFMS.ForeColor = System.Drawing.SystemColors.Control;
             this.SaveFMS.Name = "SaveFMS";
-            this.SaveFMS.Size = new System.Drawing.Size(180, 22);
+            this.SaveFMS.Size = new System.Drawing.Size(145, 22);
             this.SaveFMS.Text = "Save";
             this.SaveFMS.Click += new System.EventHandler(this.SaveFMS_Click);
+            // 
+            // SaveAllFMS
+            // 
+            this.SaveAllFMS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
+            this.SaveAllFMS.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.SaveAllFMS.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.SaveAllFMS.ForeColor = System.Drawing.SystemColors.Control;
+            this.SaveAllFMS.Name = "SaveAllFMS";
+            this.SaveAllFMS.Size = new System.Drawing.Size(145, 22);
+            this.SaveAllFMS.Text = "Save All";
+            this.SaveAllFMS.Click += new System.EventHandler(this.SaveAllFMS_Click);
             // 
             // FileSaveSeparatorMS
             // 
             this.FileSaveSeparatorMS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
             this.FileSaveSeparatorMS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
             this.FileSaveSeparatorMS.Name = "FileSaveSeparatorMS";
-            this.FileSaveSeparatorMS.Size = new System.Drawing.Size(177, 6);
+            this.FileSaveSeparatorMS.Size = new System.Drawing.Size(142, 6);
             // 
             // ExportFMS
             // 
@@ -423,7 +481,7 @@
             this.ConvertTsvParamEFMS});
             this.ExportFMS.ForeColor = System.Drawing.SystemColors.Control;
             this.ExportFMS.Name = "ExportFMS";
-            this.ExportFMS.Size = new System.Drawing.Size(180, 22);
+            this.ExportFMS.Size = new System.Drawing.Size(145, 22);
             this.ExportFMS.Text = "Export";
             // 
             // ConvertDefXmlEFMS
@@ -481,12 +539,24 @@
             this.RowMS.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.RowMS.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.RowMS.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.DuplicateRowRMS,
             this.CopyRowRMS,
+            this.PasteRowRMS,
             this.DeleteRowRMS});
             this.RowMS.ForeColor = System.Drawing.SystemColors.Control;
             this.RowMS.Name = "RowMS";
             this.RowMS.Size = new System.Drawing.Size(47, 20);
             this.RowMS.Text = "Rows";
+            // 
+            // DuplicateRowRMS
+            // 
+            this.DuplicateRowRMS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
+            this.DuplicateRowRMS.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.DuplicateRowRMS.ForeColor = System.Drawing.SystemColors.Control;
+            this.DuplicateRowRMS.Name = "DuplicateRowRMS";
+            this.DuplicateRowRMS.Size = new System.Drawing.Size(150, 22);
+            this.DuplicateRowRMS.Text = "Duplicate Row";
+            this.DuplicateRowRMS.Click += new System.EventHandler(this.DuplicateRowRMS_Click);
             // 
             // CopyRowRMS
             // 
@@ -494,9 +564,19 @@
             this.CopyRowRMS.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.CopyRowRMS.ForeColor = System.Drawing.SystemColors.Control;
             this.CopyRowRMS.Name = "CopyRowRMS";
-            this.CopyRowRMS.Size = new System.Drawing.Size(180, 22);
+            this.CopyRowRMS.Size = new System.Drawing.Size(150, 22);
             this.CopyRowRMS.Text = "Copy Row";
             this.CopyRowRMS.Click += new System.EventHandler(this.CopyRowRMS_Click);
+            // 
+            // PasteRowRMS
+            // 
+            this.PasteRowRMS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
+            this.PasteRowRMS.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.PasteRowRMS.ForeColor = System.Drawing.SystemColors.Control;
+            this.PasteRowRMS.Name = "PasteRowRMS";
+            this.PasteRowRMS.Size = new System.Drawing.Size(150, 22);
+            this.PasteRowRMS.Text = "Paste Row";
+            this.PasteRowRMS.Click += new System.EventHandler(this.PasteRowRMS_Click);
             // 
             // DeleteRowRMS
             // 
@@ -504,7 +584,7 @@
             this.DeleteRowRMS.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.DeleteRowRMS.ForeColor = System.Drawing.SystemColors.Control;
             this.DeleteRowRMS.Name = "DeleteRowRMS";
-            this.DeleteRowRMS.Size = new System.Drawing.Size(180, 22);
+            this.DeleteRowRMS.Size = new System.Drawing.Size(150, 22);
             this.DeleteRowRMS.Text = "Delete Row";
             this.DeleteRowRMS.Click += new System.EventHandler(this.DeleteRowRMS_Click);
             // 
@@ -527,7 +607,7 @@
             this.AboutHMS.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.AboutHMS.ForeColor = System.Drawing.SystemColors.Control;
             this.AboutHMS.Name = "AboutHMS";
-            this.AboutHMS.Size = new System.Drawing.Size(180, 22);
+            this.AboutHMS.Size = new System.Drawing.Size(107, 22);
             this.AboutHMS.Text = "About";
             this.AboutHMS.Click += new System.EventHandler(this.AboutHMS_Click);
             // 
@@ -540,11 +620,13 @@
             this.Controls.Add(this.SplitContainerA);
             this.Controls.Add(this.ReaderStatusStrip);
             this.Controls.Add(this.MainFormMenuStrip);
+            this.ForeColor = System.Drawing.SystemColors.Control;
             this.MainMenuStrip = this.MainFormMenuStrip;
             this.Name = "MainForm";
             this.Text = "Armored Core For Answer Param Editor";
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.RowDGV)).EndInit();
+            this.RowDGVContextMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ParamDGV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CellDGV)).EndInit();
             this.SplitContainerA.Panel1.ResumeLayout(false);
@@ -585,7 +667,7 @@
         private System.Windows.Forms.MenuStrip MainFormMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem FileMS;
         private System.Windows.Forms.ToolStripMenuItem OpenParamsFMS;
-        private System.Windows.Forms.ToolStripMenuItem SaveFMS;
+        private System.Windows.Forms.ToolStripMenuItem SaveAllFMS;
         private System.Windows.Forms.ToolStripMenuItem RowMS;
         private System.Windows.Forms.ToolStripMenuItem DeleteRowRMS;
         private System.Windows.Forms.ToolStripMenuItem HelpMS;
@@ -598,6 +680,13 @@
         private System.Windows.Forms.ToolStripMenuItem ConvertParamTsvEFMS;
         private System.Windows.Forms.ToolStripMenuItem ConvertTsvParamEFMS;
         private System.Windows.Forms.ToolStripSeparator FileSaveSeparatorMS;
+        private System.Windows.Forms.ToolStripMenuItem DuplicateRowRMS;
+        private System.Windows.Forms.ToolStripMenuItem PasteRowRMS;
+        private System.Windows.Forms.ContextMenuStrip RowDGVContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem PasteRowRowConMenu;
+        private System.Windows.Forms.ToolStripMenuItem CopyRowRowConMenu;
+        private System.Windows.Forms.ToolStripMenuItem AddParamFMS;
+        private System.Windows.Forms.ToolStripMenuItem SaveFMS;
     }
 }
 
